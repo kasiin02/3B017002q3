@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-Hans-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入頁</title>
+</head>
+
+<body>
+    <h1>登入頁</h1>
+    <form method="post" action="/login">
+        <p>身分證號: <input type="text" name="idno"></p>
+        <p>密碼: <input type="password" name="pwd"></p>
+        <p><input type="submit" value="登入" ></p>
+        <p style="color: red">{{message}}</p>
+    </form>
+</body>
+
+</html>

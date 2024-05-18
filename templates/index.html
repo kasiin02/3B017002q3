@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hans-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員資料檢視</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif; /* 設置字體為 Arial */
+    }
+
+    td {
+        text-align: left; /* 將文本靠左對齊 */
+        border-bottom: 1px solid #ddd; /* 添加底部邊框 */
+    }
+
+    th {
+        font-weight: bold; /* 將表頭文字設置為粗體 */
+    }
+</style>
+<body>
+    <h1>會員資料檢視</h1>
+    <table border="1">
+        <tr>
+            <th>姓名</th>
+            <td>{{ user[1] }}</td>
+        </tr>
+        <tr>
+            <th>生日</th>
+            <td>{{ user[2] }}</td>
+        </tr>
+        <tr>
+            <th>血型</th>
+            <td>{{ user[3] }}</td>
+        </tr>
+        <tr>
+            <th>手機</th>
+            <td>{{ user[4] }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ user[5] }}</td>
+        </tr>
+        <tr>
+            <th>身分證號</th>
+            <td>{{ user[6] }}</td>
+        </tr>
+        <tr>
+            <th>密碼</th>
+            <td>{{ user[7] }}</td>
+        </tr>
+    </table>
+    <div class="link">
+        <a href="{{ url_for('edit') }}">修改個人資料</a>
+        <a href="{{ url_for('logout') }}">登出</a>
+    </div>
+</body>
+</html>
