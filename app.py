@@ -17,7 +17,7 @@ logging.basicConfig(filename='error.log', level=logging.ERROR)
 @app.before_request
 def before_request():
     g.db = sqlite3.connect('mydb.db')
-    g.db.row_factory = sqlite3.Row
+    g.db.row_factory = sqlite3.Row  # 設置 row_factory，幫助取值方便
 
 
 @app.route('/')
