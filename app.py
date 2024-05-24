@@ -10,6 +10,7 @@ Session(app)
 
 
 def error_log(error: str):
+    '''記錄錯誤至error.log'''
     with open('error.log', 'a', encoding='UTF-8') as f:
         f.write(f"error: {error}\n")
 
@@ -42,7 +43,7 @@ def index():
                 return redirect(url_for('login'))  # 使用者資料不存在，重新導向至登入頁面
     except Exception as e:
         error_log(str(e))
-        return render_template('error.html', error=str(e))
+        return redirect(url_for('error', error=str(e)))
 
 
 # 定義登入頁面路由
@@ -71,10 +72,10 @@ def login():
                 session['nm'] = user[1]
                 return redirect(url_for('index'))
             else:
-                return render_template('login.html', message='請輸入正確的帳號密碼')
+                return render_template('login.html', error='請輸入正確的帳號密碼')
     except Exception as e:
         error_log(str(e))
-        return render_template('error.html', error=str(e))
+        return redirect(url_for('error', error=str(e)))
 
 
 @app.route('/edit', methods=['GET', 'POST'])
@@ -103,6 +104,7 @@ def edit():
                 session['idno'] = request.form['idno']
                 session['pwd'] = request.form['pwd']
                 cur = g.db.cursor()
+                # 更改資料
                 cur.execute("UPDATE member SET nm = ?, \
                     birth = ?, \
                     blood = ?, \
@@ -120,12 +122,13 @@ def edit():
                                      session['iid']))
                 # 提交更改
                 g.db.commit()
+                # 新資料載入
                 cur.execute("SELECT * FROM member WHERE nm = ?", (session['nm'],))
                 user_data = cur.fetchone()
                 return render_template('index.html', user=user_data)
     except Exception as e:
         error_log(str(e))
-        return render_template('error.html', error=str(e))
+        return redirect(url_for('error', error=str(e)))
 
 
 @app.route('/logout', methods=['GET'])
