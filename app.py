@@ -1,7 +1,6 @@
 from flask import Flask, session, render_template, request, redirect, url_for, g
 from flask_session import Session
 import sqlite3
-import logging
 
 app = Flask(__name__)  # __name__ 代表目前執行的模組
 
@@ -9,8 +8,10 @@ app.secret_key = 'mysecretkey'
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
-# 配置日誌
-logging.basicConfig(filename='error.log', level=logging.ERROR)
+
+def error_log(error: str):
+    with open('error.log', 'a', encoding='UTF-8') as f:
+        f.write(f"error: {error}\n")
 
 
 # 在每次請求之前運行的函數
@@ -40,7 +41,7 @@ def index():
                 session.pop('nm', None)
                 return redirect(url_for('login'))  # 使用者資料不存在，重新導向至登入頁面
     except Exception as e:
-        logging.error("An error occurred: %s", str(e))
+        error_log(str(e))
         return render_template('error.html', error=str(e))
 
 
@@ -72,7 +73,7 @@ def login():
             else:
                 return render_template('login.html', message='請輸入正確的帳號密碼')
     except Exception as e:
-        logging.error("An error occurred: %s", str(e))
+        error_log(str(e))
         return render_template('error.html', error=str(e))
 
 
@@ -123,7 +124,7 @@ def edit():
                 user_data = cur.fetchone()
                 return render_template('index.html', user=user_data)
     except Exception as e:
-        logging.error("An error occurred: %s", str(e))
+        error_log(str(e))
         return render_template('error.html', error=str(e))
 
 
